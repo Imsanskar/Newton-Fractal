@@ -1,6 +1,6 @@
 #version 440 core
 
-#define MAX_ITERATION 500
+#define MAX_ITERATION 100
 
 out vec4 color;
 
@@ -23,26 +23,33 @@ float magnitude(vec2 v){
 #define divide(a, b) vec2(a.x * b.x + a.y * b.y, - a.x * b.y + a.y * b.x) / (b.x * b.x + b.y * b.y)
 
 vec2 cpow(vec2 v, float e){
-	float radius = magnitude(v);
-	radius = pow(radius, e);
-	float theta = atan(v.y / v.x);
-	theta *= e;
-	vec2 res;
-	res.x = radius * cos(theta);
-	res.y = radius * sin(theta);
-
+	vec2 res = v;
+	for(int i = 1; i < e; i++){
+		res = mulitply(res, v);
+	}
 	return res;
+	
+	// float radius = magnitude(v);
+	// radius = pow(radius, e);
+	// float theta = atan(v.y / v.x);
+	// theta *= e;
+	// vec2 res;
+	// res.x = radius * cos(theta);
+	// res.y = radius * sin(theta);
+
+	// return res;
 }
 
 vec2 func(vec2 c){
-	vec2 res = mulitply(c, c);
-	res = mulitply(res, c) - vec2(1.0f, 0.0f);
-	return res;
+	// vec2 res = mulitply(c, c);
+	// res = mulitply(res, c) - vec2(1.0f, 0.0f);
+	return cpow(c, 3) - vec2(1.0f, 0.0f);
+	// return res;
 }
 
 vec2 derivative(vec2 c){
 	vec2 res = 3 * mulitply(c, c);
-	return res;
+	return 3 * cpow(c, 2);
 }
 
 
@@ -54,10 +61,12 @@ uniform vec3 colors[3];
 
 vec3 newtonFractal(inout vec2 z, inout int iteration){
 	iteration = 0;
+	vec2 a = vec2(1, 0);
 	while(iteration < MAX_ITERATION){
-		z = z - divide(func(z), derivative(z));
+		vec2 step = divide(func(z), derivative(z));
+		z = z - mulitply(a, step);
 
-		double tolerance = 0.0000000001;
+		double tolerance = 0.000000000001;
 
 		for(int i = 0; i < 3; i++){
 			vec2 diff = z - roots[i];
@@ -74,13 +83,12 @@ vec3 newtonFractal(inout vec2 z, inout int iteration){
 	return vec3(0.3, 0.3, 0.3);	
 }
 
-
-
 void main(){
 	vec2 st = vec2(gl_FragCoord.x / width, gl_FragCoord.y / height);
 	float aspectRatio = width / height;
 	int iteration = 0;
 	z = rectMin + (rectMax - rectMin) * st * vec2(aspectRatio, 1);
 	vec3 fractalColor = newtonFractal(z, iteration);
-	color = vec4(fractalColor / iteration * 10 , 1.0f);
+	color = vec4(fractalColor / iteration * 20 , 1.0f);
+	// color = vec4(magnitude(cpow(vec2(0.5, 0.5), 1)));
 }
