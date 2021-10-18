@@ -4,7 +4,7 @@ Rendering of a Newton Fractal using OpenGL
 -  Operating System : Linux/ Windows
 -  Programming Language : C/C++
 -  Graphics API : OpenGL 4.4
--  Library : GLFW, ASSIMP
+-  Library : GLFW
 -  OpenGL Loader: GLAD
 - Build system: Solution file(Visual Studio), CMake & Makefile(build.bat)
 
