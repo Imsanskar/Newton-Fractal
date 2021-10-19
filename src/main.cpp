@@ -2,8 +2,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <Renderer.h>
-#include "math/matrix.h"
-#include "math/vec.h"
+#include "Math/matrix.h"
+#include "Math/vec.h"
 
 
 

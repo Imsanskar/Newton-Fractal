@@ -22,6 +22,7 @@ file(GLOB SRC src/*.cpp src/*.c)
 include_directories(
 	${CMAKE_SOURCE_DIR}/includes
 	${CMAKE_SOURCE_DIR}/Dependencies/includes
+	
 )
 
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/build/)
