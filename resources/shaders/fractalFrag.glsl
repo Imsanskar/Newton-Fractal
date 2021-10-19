@@ -1,6 +1,6 @@
 #version 440 core
 
-#define MAX_ITERATION 100
+#define MAX_ITERATION 100000
 
 out vec4 color;
 
